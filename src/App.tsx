@@ -1,7 +1,13 @@
-function App() {
-  const message: string = 'Hello world!';
+import LoanForm from './features/loan/LoanForm';
+import Container from './ui/Container';
 
-  return <h1>{message}</h1>;
+function App() {
+  return (
+    <Container>
+      <h1>Check your loan status</h1>
+      <LoanForm />
+    </Container>
+  );
 }
 
 export default App;
