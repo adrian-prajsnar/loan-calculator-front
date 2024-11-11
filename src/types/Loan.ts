@@ -15,6 +15,7 @@ type LoanResponse = {
 type UseLoanFormResult = {
   formData: LoanFormData;
   errorMessage: string | null;
+  isLoading: boolean;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
 };

@@ -2,10 +2,10 @@ import { useLoanForm } from './useLoanForm';
 import { ButtonSubmit, Form, FormErrorMessage, FormRow, Input, Label } from '../../ui/Form';
 
 function LoanForm() {
-  const { formData, errorMessage, handleChange, handleSubmit } = useLoanForm();
+  const { formData, errorMessage, isLoading, handleChange, handleSubmit } = useLoanForm();
 
   return (
-    <Form onSubmit={(e) => void handleSubmit(e)}>
+    <Form onSubmit={e => void handleSubmit(e)}>
       {errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
 
       <FormRow>
@@ -80,7 +80,9 @@ function LoanForm() {
         />
       </FormRow>
 
-      <ButtonSubmit type="submit">Submit Loan Data</ButtonSubmit>
+      <ButtonSubmit type="submit" disabled={isLoading}>
+        {isLoading ? 'Submitting...' : 'Submit Loan Data'}
+      </ButtonSubmit>
     </Form>
   );
 }
