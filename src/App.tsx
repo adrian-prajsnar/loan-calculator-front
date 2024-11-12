@@ -4,7 +4,7 @@ import Container from './ui/Container';
 function App() {
   return (
     <Container>
-      <h1>Check your loan status</h1>
+      <h1>Check Your Loan Status</h1>
       <LoanForm />
     </Container>
   );

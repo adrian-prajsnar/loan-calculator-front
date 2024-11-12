@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { LoanFormData, UseLoanFormResult } from '../../types/Loan';
+import toast from 'react-hot-toast';
+import { LoanFormData, LoanResponse, UseLoanFormResult } from '../../types/Loan';
 import { submitLoanData } from '../../utils/api';
 
 function useLoanForm(): UseLoanFormResult {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<LoanFormData>({
     allInstallments: 100,
     remainingInstallments: 90,
     installmentAmount: 5000,
     financingAmount: 500000,
-    interestRate: 2.75,
+    interestRate: 2.5,
     userEmail: 'test@email.com'
   });
 
@@ -25,12 +25,11 @@ function useLoanForm(): UseLoanFormResult {
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-    setErrorMessage(null);
     setIsLoading(true);
 
     const isFormComplete: boolean = Object.values(formData).every(value => value !== '' && value !== 0);
     if (!isFormComplete) {
-      setErrorMessage('Fields cannot be empty or "0", please try again.');
+      toast.error('Fields cannot be empty or 0, please try again.');
       setIsLoading(false);
       return;
     }
@@ -39,24 +38,37 @@ function useLoanForm(): UseLoanFormResult {
       ([key, value]) => key !== 'userEmail' && typeof value === 'number' && value < 0
     );
     if (hasNegativeValue) {
-      setErrorMessage('Values cannot be negative, please try again.');
+      toast.error('Values cannot be negative, please try again.');
       setIsLoading(false);
       return;
     }
 
     const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.userEmail)) {
-      setErrorMessage('Invalid email, please try again.');
+      toast.error('Invalid email, please try again.');
       setIsLoading(false);
       return;
     }
 
     try {
-      console.log(formData);
-      await submitLoanData(formData);
+      const response: LoanResponse = await submitLoanData(formData);
+
+      if (response.status === 'warning' || response.status === 'error')
+        toast.error(`${response.message}. Your data won't be computed and added to the database.`);
+      else {
+        toast.success('Your data has been computed and added to the database.');
+        setFormData({
+          allInstallments: 0,
+          remainingInstallments: 0,
+          installmentAmount: 0,
+          financingAmount: 0,
+          interestRate: 0,
+          userEmail: ''
+        });
+      }
     } catch (error) {
       console.error(error);
-      setErrorMessage('Failed to submit loan data, please try again.');
+      toast.error('There was the server error while submitting loan data, please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -64,7 +76,6 @@ function useLoanForm(): UseLoanFormResult {
 
   return {
     formData,
-    errorMessage,
     isLoading,
     handleChange,
     handleSubmit

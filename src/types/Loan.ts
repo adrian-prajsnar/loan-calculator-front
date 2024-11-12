@@ -8,13 +8,12 @@ type LoanFormData = {
 };
 
 type LoanResponse = {
-  success: boolean;
+  status: 'success' | 'warning' | 'error';
   message: string;
 };
 
 type UseLoanFormResult = {
   formData: LoanFormData;
-  errorMessage: string | null;
   isLoading: boolean;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.FormEvent) => Promise<void>;

@@ -1,13 +1,11 @@
 import { useLoanForm } from './useLoanForm';
-import { ButtonSubmit, Form, FormErrorMessage, FormRow, Input, Label } from '../../ui/Form';
+import { ButtonSubmit, Form, FormRow, Input, Label } from '../../ui/Form';
 
 function LoanForm() {
-  const { formData, errorMessage, isLoading, handleChange, handleSubmit } = useLoanForm();
+  const { formData, isLoading, handleChange, handleSubmit } = useLoanForm();
 
   return (
     <Form onSubmit={e => void handleSubmit(e)}>
-      {errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
-
       <FormRow>
         <Label htmlFor="allInstallments">All Installments</Label>
         <Input

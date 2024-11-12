@@ -27,11 +27,6 @@ const Label = styled.label`
   font-weight: 500;
 `;
 
-const FormErrorMessage = styled.p`
-  color: #eb1700;
-  text-align: center;
-`;
-
 const ButtonSubmit = styled.button`
   color: #fff;
   background-color: #555;
@@ -39,8 +34,11 @@ const ButtonSubmit = styled.button`
   margin-left: auto;
   width: fit-content;
   padding: 1.2rem 2.4rem;
-  border: 1px solid currentColor;
   border-radius: 4px;
+
+  &:disabled {
+    background-color: #ccc;
+  }
 `;
 
-export { Form, FormRow, Input, Label, FormErrorMessage, ButtonSubmit };
+export { Form, FormRow, Input, Label, ButtonSubmit };
