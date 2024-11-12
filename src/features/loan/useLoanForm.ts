@@ -53,8 +53,9 @@ function useLoanForm(): UseLoanFormResult {
     try {
       const response: LoanResponse = await submitLoanData(formData);
 
-      if (response.status === 'warning' || response.status === 'error')
+      if (response.status === 'error')
         toast.error(`${response.message}. Your data won't be computed and added to the database.`);
+      else if (response.status === 'info') toast(`${response.message}.`);
       else {
         toast.success('Your data has been computed and added to the database.');
         setFormData({

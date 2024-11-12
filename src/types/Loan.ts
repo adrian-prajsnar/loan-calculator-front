@@ -8,7 +8,7 @@ type LoanFormData = {
 };
 
 type LoanResponse = {
-  status: 'success' | 'warning' | 'error';
+  status: 'success' | 'info' | 'error';
   message: string;
 };
 
